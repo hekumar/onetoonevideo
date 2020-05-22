@@ -42,7 +42,12 @@ io.on('connection', (socket) => {
       console.log(s);
       io.to(s.target).emit('icereceive', s);
     })
+    socket.on('hangup', (s) => {
+      console.log(s);
+      io.to(s.target).emit('hangupReceive', s);
+    })
  });
 
  
 
+ 
