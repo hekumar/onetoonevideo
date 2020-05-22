@@ -3,6 +3,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var http = require('http');
+var axios = require('axios');
+var _ = require('lodash');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -17,6 +19,25 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.get('/icecandidate', (req,res) => {
+  axios.put('https://global.xirsys.net/_turn/MyFirstApp',
+   {
+      format: "urls"
+  },
+  {
+    headers: {
+      "Authorization": "Basic " + Buffer.from("subham:17a6e584-9385-11ea-9676-0242ac150003").toString("base64"),
+      "Content-Type": "application/json",
+    }
+  }
+  ).then(response => {
+    console.log(response.data);
+    res.send(response.data);
+  })
+  .catch((err) => {
+    console.log(err);
+  })
+})
 
 var port =  process.env.PORT || '8081';
 
