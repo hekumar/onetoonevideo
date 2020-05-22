@@ -51,6 +51,18 @@ io.on('connection', (socket) => {
     console.log(socket.id);
     socket.broadcast.emit('joined', {user : socket.id});
 
+    socket.on('callStart',(s)=>{
+      console.log(s);
+      io.to(s.target).emit('callingStart', s)
+    })
+    
+    socket.on('StartNegotiation',(s)=>{
+      console.log(s);
+      io.to(s.target).emit('startingNegotiation', s)
+    })
+
+
+
     socket.on('call',(s)=>{
       console.log(s);
       io.to(s.target).emit('calling', s)
