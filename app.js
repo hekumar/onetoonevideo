@@ -49,7 +49,12 @@ var io = require('socket.io')(server);
 
 io.on('connection', (socket) => {
     console.log(socket.id);
-    socket.broadcast.emit('joined', {user : socket.id});
+    socket.on('nickName', (s) => {
+      console.log(s);
+      socket.nickname = s.nickName
+      socket.broadcast.emit('joined', {user : socket.id, nickName: s.nickName });
+    })
+    
 
     socket.on('callStart',(s)=>{
       console.log(s);
@@ -60,9 +65,6 @@ io.on('connection', (socket) => {
       console.log(s);
       io.to(s.target).emit('startingNegotiation', s)
     })
-
-
-
     socket.on('call',(s)=>{
       console.log(s);
       io.to(s.target).emit('calling', s)
