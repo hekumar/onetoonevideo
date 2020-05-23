@@ -24,6 +24,7 @@ function createPeerConnection() {
       return navigator.mediaDevices.getUserMedia(mediaConstraints);
     })
     .then(function(stream) {
+        myStream = stream;
       localStream = stream;
       document.getElementById("local_video").srcObject = localStream;
 
